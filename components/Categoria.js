@@ -12,8 +12,8 @@ export const Categoria = ({ categoria }) => {
       } flex items-center gap-4 p-5 w-full border border-gray-200 cursor-pointer hover:bg-amber-400`}
     >
       <Image
-        width={70}
-        height={70}
+        width={55}
+        height={55}
         src={`/assets/img/icono_${icono}.svg`}
         alt={`Imagen de ${nombre}`}
       />

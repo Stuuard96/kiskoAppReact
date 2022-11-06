@@ -7,7 +7,7 @@ export const Sidebar = () => {
 
   return (
     <>
-      <Image width={300} height={100} src="/assets/img/logo.svg" alt="logo" />
+      <Image width={100} height={100} src="/assets/img/logo.svg" alt="logo" />
       <nav className="mt-10 list-none">
         {categorias.map((categoria) => (
           <Categoria key={categoria.id} categoria={categoria} />
