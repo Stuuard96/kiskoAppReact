@@ -11,7 +11,7 @@ export default function Home() {
       <p className="text-xl py-6">
         Elige y personaliza tu pedido a continuación
       </p>
-      <div className="grid grid-cols-1 lg:grid-cols-2  xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
         {categoriaActual?.productos?.map((producto) => (
           <Producto key={producto.id} producto={producto} />
         ))}

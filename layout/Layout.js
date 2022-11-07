@@ -1,7 +1,27 @@
 import Head from 'next/head';
 import { Sidebar } from '../components/Sidebar';
+import Modal from 'react-modal';
+import { useKiosko } from '../hooks/useKiosko';
+import { ModalProducto } from '../components/ModalProducto';
+
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-30%',
+    transform: 'translate(-50%, -50%)',
+    // width: '80%',
+    // height: '80%',
+  },
+};
+
+Modal.setAppElement('#__next');
 
 export default function Layout({ children, pagina }) {
+  const { modal } = useKiosko();
+
   return (
     <>
       <Head>
@@ -16,6 +36,11 @@ export default function Layout({ children, pagina }) {
           <div className="p-8">{children}</div>
         </main>
       </div>
+      {modal && (
+        <Modal isOpen={modal} style={customStyles}>
+          <ModalProducto />
+        </Modal>
+      )}
     </>
   );
 }

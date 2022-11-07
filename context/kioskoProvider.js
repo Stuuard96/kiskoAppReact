@@ -5,7 +5,10 @@ export const kioskoContext = createContext();
 
 export const KioskoProvider = ({ children }) => {
   const [categorias, setCategorias] = useState([]);
+  const [producto, setProducto] = useState({});
   const [categoriaActual, setCategoriaActual] = useState({});
+  const [modal, setModal] = useState(false);
+  const [pedido, setPedido] = useState([]);
 
   useEffect(() => {
     const obtenerCategorias = async () => {
@@ -26,12 +29,29 @@ export const KioskoProvider = ({ children }) => {
     setCategoriaActual(categoria);
   };
 
+  const handleSetProducto = (producto) => {
+    setProducto(producto);
+  };
+
+  const handleChangeModal = () => {
+    setModal(!modal);
+  };
+
+  const handleAgregarPedido = ({ categoriaId, imagen, ...producto }) => {
+    setPedido([...pedido, producto]);
+  };
+
   return (
     <kioskoContext.Provider
       value={{
         categorias,
         categoriaActual,
         handleClickCategoria,
+        producto,
+        handleSetProducto,
+        modal,
+        handleChangeModal,
+        handleAgregarPedido,
       }}
     >
       {children}
