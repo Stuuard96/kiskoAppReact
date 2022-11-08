@@ -1,11 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { formatearDinero } from '../helpers';
 import { useKiosko } from '../hooks/useKiosko';
 import Image from 'next/image';
 
 export const ModalProducto = () => {
-  const { producto, handleChangeModal, handleAgregarPedido } = useKiosko();
+  const { producto, handleChangeModal, handleAgregarPedido, pedido } =
+    useKiosko();
   const [cantidad, setCantidad] = useState(1);
+  const [edicion, setEdicion] = useState(false);
+
+  useEffect(() => {
+    if (pedido.some((pedidoState) => pedidoState.id === producto.id)) {
+      const productoEdicion = pedido.find(
+        (pedidoState) => pedidoState.id === producto.id
+      );
+      setEdicion(true);
+      setCantidad(productoEdicion.cantidad);
+    }
+  }, [producto, pedido]);
 
   return (
     <>
@@ -95,7 +107,7 @@ export const ModalProducto = () => {
               handleAgregarPedido({ ...producto, cantidad });
             }}
           >
-            Añadir al pedido
+            {edicion ? 'Guardar Cambios' : 'Agregar al Pedido'}
           </button>
         </div>
       </div>

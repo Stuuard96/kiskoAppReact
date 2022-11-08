@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import { Slide, toast } from 'react-toastify';
 
 export const kioskoContext = createContext();
 
@@ -38,7 +39,19 @@ export const KioskoProvider = ({ children }) => {
   };
 
   const handleAgregarPedido = ({ categoriaId, imagen, ...producto }) => {
-    setPedido([...pedido, producto]);
+    if (pedido.some((productoState) => productoState.id === producto.id)) {
+      const pedidoActualizado = pedido.map((productoState) =>
+        productoState.id === producto.id ? producto : productoState
+      );
+      setPedido(pedidoActualizado);
+    } else {
+      setPedido([...pedido, producto]);
+      toast.success('Guardado Correctamente', {
+        autoClose: 3000,
+        transition: Slide,
+      });
+    }
+    setModal(false);
   };
 
   return (
@@ -52,6 +65,7 @@ export const KioskoProvider = ({ children }) => {
         modal,
         handleChangeModal,
         handleAgregarPedido,
+        pedido,
       }}
     >
       {children}
