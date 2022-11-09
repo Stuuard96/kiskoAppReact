@@ -1,10 +1,12 @@
 import { createContext, useEffect, useState } from 'react';
-import axios from 'axios';
+import { useRouter } from 'next/router';
 import { Slide, toast } from 'react-toastify';
+import axios from 'axios';
 
 export const kioskoContext = createContext();
 
 export const KioskoProvider = ({ children }) => {
+  const router = useRouter();
   const [categorias, setCategorias] = useState([]);
   const [producto, setProducto] = useState({});
   const [categoriaActual, setCategoriaActual] = useState({});
@@ -28,6 +30,7 @@ export const KioskoProvider = ({ children }) => {
   const handleClickCategoria = (id) => {
     const categoria = categorias.find((cat) => cat.id === id);
     setCategoriaActual(categoria);
+    router.push('/');
   };
 
   const handleSetProducto = (producto) => {
@@ -38,7 +41,7 @@ export const KioskoProvider = ({ children }) => {
     setModal(!modal);
   };
 
-  const handleAgregarPedido = ({ categoriaId, imagen, ...producto }) => {
+  const handleAgregarPedido = ({ categoriaId, ...producto }) => {
     if (pedido.some((productoState) => productoState.id === producto.id)) {
       const pedidoActualizado = pedido.map((productoState) =>
         productoState.id === producto.id ? producto : productoState
@@ -52,6 +55,20 @@ export const KioskoProvider = ({ children }) => {
       });
     }
     setModal(false);
+    handleSetProducto({});
+  };
+
+  const handleEditarPedido = (id) => {
+    const productoEditado = pedido.find((pedidoState) => pedidoState.id === id);
+    setProducto(productoEditado);
+    setModal(!modal);
+  };
+
+  const handleEliminarPedido = (id) => {
+    const pedidoActualizado = pedido.filter(
+      (pedidoState) => pedidoState.id !== id
+    );
+    setPedido(pedidoActualizado);
   };
 
   return (
@@ -66,6 +83,9 @@ export const KioskoProvider = ({ children }) => {
         handleChangeModal,
         handleAgregarPedido,
         pedido,
+        handleEditarPedido,
+        handleEliminarPedido,
+        handleSetProducto,
       }}
     >
       {children}

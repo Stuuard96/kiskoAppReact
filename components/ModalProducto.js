@@ -4,8 +4,13 @@ import { useKiosko } from '../hooks/useKiosko';
 import Image from 'next/image';
 
 export const ModalProducto = () => {
-  const { producto, handleChangeModal, handleAgregarPedido, pedido } =
-    useKiosko();
+  const {
+    producto,
+    handleChangeModal,
+    handleAgregarPedido,
+    pedido,
+    handleSetProducto,
+  } = useKiosko();
   const [cantidad, setCantidad] = useState(1);
   const [edicion, setEdicion] = useState(false);
 
@@ -33,7 +38,12 @@ export const ModalProducto = () => {
         </div>
         <div className="md:w-4/6">
           <div className="flex justify-end">
-            <button onClick={handleChangeModal}>
+            <button
+              onClick={() => {
+                handleChangeModal();
+                handleSetProducto({});
+              }}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
