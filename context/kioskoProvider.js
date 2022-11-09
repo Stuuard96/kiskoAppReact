@@ -12,6 +12,8 @@ export const KioskoProvider = ({ children }) => {
   const [categoriaActual, setCategoriaActual] = useState({});
   const [modal, setModal] = useState(false);
   const [pedido, setPedido] = useState([]);
+  const [nombre, setNombre] = useState('');
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     const obtenerCategorias = async () => {
@@ -26,6 +28,14 @@ export const KioskoProvider = ({ children }) => {
       setCategoriaActual(categorias[0]);
     }
   }, [categorias]);
+
+  useEffect(() => {
+    const nuevoTotal = pedido.reduce(
+      (total, producto) => producto.precio * producto.cantidad + total,
+      0
+    );
+    setTotal(nuevoTotal);
+  }, [pedido]);
 
   const handleClickCategoria = (id) => {
     const categoria = categorias.find((cat) => cat.id === id);
@@ -71,6 +81,11 @@ export const KioskoProvider = ({ children }) => {
     setPedido(pedidoActualizado);
   };
 
+  const colocarOrden = async (e) => {
+    e.preventDefault();
+    console.log('Orden colocada');
+  };
+
   return (
     <kioskoContext.Provider
       value={{
@@ -86,6 +101,10 @@ export const KioskoProvider = ({ children }) => {
         handleEditarPedido,
         handleEliminarPedido,
         handleSetProducto,
+        nombre,
+        setNombre,
+        colocarOrden,
+        total,
       }}
     >
       {children}
